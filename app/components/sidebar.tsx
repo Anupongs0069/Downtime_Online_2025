@@ -6,8 +6,8 @@ export function Sidebar() {
         {title: 'Employees', href: '/dashboard/users', icon: 'fa-solid fa-users'},
         {title: 'Records', href: '/dashboard/records', icon: 'fa-solid fa-clipboard-list'},
         {title: 'Repair_Status', href: '/dashboard/repair_status', icon: 'fa-solid fa-screwdriver'},
-        {title: 'Report_Technician', href: '/dashboard/report_technician', icon: 'fa-solid fa-file-alt'},
-        {title: 'Devices', href: '/dashboard/devices', icon: 'fa-solid fa-laptop'},
+        {title: 'Report_Technician', href: '/backoffice/report_technician', icon: 'fa-solid fa-file-alt'},
+        {title: 'Devices', href: '/backoffice/device', icon: 'fa-solid fa-laptop'},
 
     ]
 
