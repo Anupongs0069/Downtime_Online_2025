@@ -3,10 +3,10 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'md' | 'lg' | 'xl';
 }
 
-export default function Modal ({
+export default function Modal({
     title,
     isOpen,
     onClose,
@@ -23,13 +23,13 @@ export default function Modal ({
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="fixed inset-0 bg-black/50 transition-opacity" onClick={onClose}></div>
-            <div className={`relative z-50 w-full ${sizeClasses} rounded-lg bg-gray-800 shadow`}>
-                <div className="flex items-center justify-center border-b p-4 border-gray-600">
+            <div className="fixed inset-0 bg-black/50 transition-opacity" onClick={onClose} />
+            <div className={`relative z-50 w-full ${sizeClasses} rounded-lg bg-gray-800 shadow-lg`}>
+                <div className="flex items-center justify-between border-b p-4 borer-gray-600">
                     <h3 className="text-lg font-semibold text-gray-400">
                         {title}
                     </h3>
-                    <button onClick={onClose} className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-700 hover:text-gray-300">
+                    <button onClick={onClose} className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-700 hover:text-gray-900">
                         <i className="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -38,6 +38,5 @@ export default function Modal ({
                 </div>
             </div>
         </div>
-    )
-    
-}   
+    );
+}

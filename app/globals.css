@@ -60,12 +60,12 @@ body {
   @apply text-2xl font-bold text-gray-200 mb-5;
 }
 
-.card-boby {
+.card-body {
   @apply text-gray-400;
 }
 
 .btn-primary {
-  @apply bg-indigo-500 text-white px-4 p-2 rounded-full mt-5 hover:bg-indigo-600;
+  @apply bg-indigo-500 text-white px-4 py-2 rounded-full mt-5 hover:bg-indigo-600;
 }
 
 .table {
@@ -73,32 +73,37 @@ body {
 }
 
 .table th {
-  @apply text-left p-4 bg-gray-800 text-gray-400;
+  @apply text-left p-4 bg-gray-950 text-gray-400;
 }
 
 .table th:first-child {
   @apply rounded-tl-2xl;
 }
+
 .table th:last-child {
   @apply rounded-tr-2xl;
 }
 
 .table tbody td {
-  @apply p-4 bg-gray-950 text-gray-400;
+  @apply p-4 bg-gray-900 text-gray-400 border-b border-gray-700;
 }
 
-.table tbody tr:first-child td:first-child {
-  @apply rounded-bl-lg;
+.table tbody tr:last-child td:first-child {
+  @apply rounded-bl-2xl;
 }
 
 .table tbody tr:last-child td:last-child {
-  @apply rounded-br-lg;
+  @apply rounded-br-2xl;
+}
+
+.table tbody tr:last-child td {
+  @apply border-b-0;
 }
 
 .btn-edit {
-  @apply bg-gray-700 text-blue-400 px-4 py-2 rounded-md mr-1;
+  @apply bg-gray-700 text-blue-400 px-4 py-2 rounded-none mr-1;
 }
 
 .btn-delete {
-  @apply bg-gray-700 text-red-400 px-4 py-2 rounded-md;
+  @apply bg-gray-700 text-red-400 px-4 py-2 rounded-none;
 }

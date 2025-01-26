@@ -12,7 +12,7 @@ export default function Page() {
     const [showModal, setShowModal] = useState(false);
     const [name, setName] = useState('');
     const [product, setProduct] = useState('');
-    const [serial, setSerial] = useState('');
+    const [family, setFamily] = useState('');
     const [importDate, setImportDate] = useState('');
     const [remark, setRemark] = useState('');
     const [id, setId] = useState(0);
@@ -47,7 +47,7 @@ export default function Page() {
             const payload = {
                 name: name,
                 product: product,
-                serial: serial,
+                family: family,
                 importDate: new Date(importDate),
                 remark: remark
             }
@@ -61,7 +61,7 @@ export default function Page() {
             setShowModal(false);
             setName('');
             setProduct('');
-            setSerial('');
+            setFamily('');
             setImportDate('');
             setRemark('');
             setId(0);
@@ -80,7 +80,7 @@ export default function Page() {
     const handleEdit = (item: any) => {
         setName(item.name);
         setProduct(item.product);
-        setSerial(item.serial);
+        setFamily(item.family);
         setImportDate(item.importdate);
         setRemark(item.remark);
         setId(item.id);
@@ -90,15 +90,8 @@ export default function Page() {
 
     const handleDelete = async (id: string) => {
         try {
-            const button = await Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",  
-                icon: 'warning',
-                showCancelButton: true,
-                // confirmButtonText: 'Yes, delete it!',
-                // cancelButtonText: 'No, cancel!',
-                // reverseButtons: true            
-            });
+            const button = await config.confirmDialog();           
+            
             if (!button.isConfirmed) {
                 await axios.delete(config.apiUrl + '/api/device/remove/' + id);
                 fetchData();
@@ -126,7 +119,7 @@ export default function Page() {
                         <tr>
                             <th>Name</th>
                             <th>Product</th>
-                            <th>Serial</th>
+                            <th>Family</th>
                             <th>Import Date</th>
                             <th>Remark</th>
                             <th style={{width: '130px' }}></th>
@@ -137,7 +130,7 @@ export default function Page() {
                             <tr key={item.id}>
                                 <td>{item.name}</td>
                                 <td>{item.product}</td>
-                                <td>{item.serial}</td>
+                                <td>{item.family}</td>
                                 <td>{dayjs(item.importDate).format('DD/MM/YYYY')}</td>
                                 <td>{item.remark}</td>
                                 
@@ -164,8 +157,8 @@ export default function Page() {
                 <div className="mt-3">Product</div>
                 <input type="text" className="form-control" value={product} onChange={(e) => setProduct(e.target.value)} />               
 
-                <div className="mt-3">Serial Number</div>
-                <input type="text" className="form-control" value={serial} onChange={(e) => setSerial(e.target.value)} />
+                <div className="mt-3">Family</div>
+                <input type="text" className="form-control" value={family} onChange={(e) => setFamily(e.target.value)} />
 
                 <div className="mt-3">Import Date</div>
                 <input type="date" className="form-control" value={importDate} onChange={(e) => setImportDate(e.target.value)} />

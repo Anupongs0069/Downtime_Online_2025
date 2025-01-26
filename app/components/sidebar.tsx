@@ -3,10 +3,10 @@ import Link from 'next/link';
 export function Sidebar() {
     const menuItems = [
         {title: 'Dashboard', href: '/dashboard', icon: 'fa-solid fa-chart-simple'},
-        {title: 'Employees', href: '/dashboard/users', icon: 'fa-solid fa-users'},
-        {title: 'Records', href: '/dashboard/records', icon: 'fa-solid fa-clipboard-list'},
-        {title: 'Repair_Status', href: '/dashboard/repair_status', icon: 'fa-solid fa-screwdriver'},
-        {title: 'Report_Technician', href: '/backoffice/report_technician', icon: 'fa-solid fa-file-alt'},
+        {title: 'Users', href: '/backoffice/user', icon: 'fa-solid fa-users'},
+        {title: 'Repair', href: '/backoffice/repair_record', icon: 'fa-solid fa-clipboard-list'},
+        {title: 'Status', href: '/backoffice/repair_status', icon: 'fa-solid fa-screwdriver'},
+        {title: 'Report', href: '/backoffice/mecthaic_report', icon: 'fa-solid fa-file-alt'},
         {title: 'Devices', href: '/backoffice/device', icon: 'fa-solid fa-laptop'},
 
     ]
