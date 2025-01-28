@@ -18,11 +18,15 @@ export default function Page() {
     const [problem, setProblem] = useState('');
     const [solving, setSolving] = useState('');
     const [deviceId, setDeviceId] = useState('');
-    const [userId, setUserId] = useState('');
-    const [user, setUser] = useState('');
-    const [engineerId, setEngineerId] = useState('');
-    const [status, setStatus] = useState('');
     const [id, setId] = useState(0);
+
+    //
+    // รับเครื่อง
+    //
+    const [showModalReceive, setShowModalReceive] = useState(false);
+    const [receiveCustomerName, setReciveCustomerName] = useState('');
+    const [receiveId, setRecdiveId] =useState(0);
+
 
     useEffect(() => {
         fetchDevices();
@@ -44,7 +48,7 @@ export default function Page() {
     }
 
     const fetchRepairRecords = async () => {
-        const response = await axios.get(`${config.apiUrl}/api/repair_record/list`);
+        const response = await axios.get(`${config.apiUrl}/api/repairRecord/list`);
         setRepairRecords(response.data);
     }
 
@@ -77,9 +81,9 @@ export default function Page() {
 
         try {
             if (id == 0) {
-                await axios.post(`${config.apiUrl}/api/repair_record/create`, payload);
+                await axios.post(`${config.apiUrl}/api/repairRecord/create`, payload);
             } else {
-                await axios.put(`${config.apiUrl}/api/repair_record/update/${id}`, payload);
+                await axios.put(`${config.apiUrl}/api/repairRecord/update/${id}`, payload);
                 setId(0);
             }
             Swal.fire({
@@ -110,7 +114,7 @@ export default function Page() {
             case 'repairing':
                 return 'Repairing';
             case 'success':
-                return 'Successfully';
+                return 'Success';
             case 'cancel':
                 return 'Cancel';
             default:
@@ -137,9 +141,30 @@ export default function Page() {
         const button = await config.confirmDialog();
 
         if (button.isConfirmed) {
-            await axios.delete(`${config.apiUrl}/api/repair_record/remove/${id}`);
+            await axios.delete(`${config.apiUrl}/api/repairRecord/remove/${id}`);
             fetchRepairRecords();
         }
+    }
+
+    const openModalReceive = (repairRecord: any) => {
+        setShowModalReceive(true);
+        setReciveCustomerName(repairRecord.customerName);
+        setRecdiveId(repairRecord.id);
+    }
+
+    const closeModalReceive = () => {
+        setShowModalReceive(false);
+        setRecdiveId(0); //clear id
+    }
+
+    const handleReceive = async () => {
+        const payload = {
+            id: receiveId
+        }
+
+        await axios.put(`${config.apiUrl}/api/repairRecord/receive`, payload);
+        fetchRepairRecords();
+        closeModalReceive();
     }
 
     return (
@@ -160,10 +185,10 @@ export default function Page() {
                                 <th>Product</th>
                                 <th>Family</th>
                                 <th>Problem</th>
-                                <th>Start JobDate</th>
-                                <th>End JobDate</th>
+                                <th>StartJobDate</th>
+                                <th>EndJobDate</th>
                                 <th>Status</th>
-                                <th style={{ width: '230px' }}></th>
+                                <th style={{ width: '200px' }}></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -175,16 +200,20 @@ export default function Page() {
                                     <td>{repairRecord.deviceFamily}</td>
                                     <td>{repairRecord.problem}</td>
                                     <td>{dayjs(repairRecord.createdAt).format('DD/MM/YYYY HH:mm')}</td>
-                                    <td>{repairRecord.endJobDate ? dayjs(repairRecord.endJobData).format('DD/MM/YYYY'): '-'}</td>
+                                    <td>{repairRecord.endJobDate ? dayjs(repairRecord.endJobData).format('DD/MM/YYYY HH:mm') : '-'}</td>
                                     <td>{getStatusName(repairRecord.status)}</td>
                                     <td>
+                                        <button className="btn-edit" onClick={() => openModalReceive(repairRecord)}>
+                                            <i className="fa-solid fa-check"></i>
+                                            
+                                        </button>
                                         <button className="btn-edit" onClick={() => handleEdit(repairRecord)}>
-                                            <i className="fa-solid fa-edit mr-3"></i>
-                                            Edit
+                                            <i className="fa-solid fa-edit"></i>
+                                            
                                         </button>
                                         <button className="btn-delete" onClick={() => handleDelete(repairRecord.id)}>
-                                            <i className="fa-solid fa-trash mr-3"></i>
-                                            Delete
+                                            <i className="fa-solid fa-trash"></i>
+                                            
                                         </button>
                                     </td>
                                 </tr>
@@ -198,16 +227,12 @@ export default function Page() {
                 onClose={() => closeModal()} size='xl'>
                
                 <div className="mt-4">EN.</div>    
-                <input className="form-control w-full" type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
-                    
-                    {/* <div className="w-1/2">
-                        <div>Device Name</div>
-                        <input className="form-control w-full" type="text" />
-                  </div>                    */}
+                <input className="form-control w-full" type="text" value={customerName} 
+                onChange={(e) => setCustomerName(e.target.value)} />
                 
-
                 <div className="mt-4">Device In System</div>
-                <select className="form-control w-full" value={deviceId} onChange={(e) => handleDeviceChange(e.target.value)} >
+                <select className="form-control w-full" value={deviceId} 
+                onChange={(e) => handleDeviceChange(e.target.value)} >
                     <option value="">--- Select Device ---</option>
                     {devices.map((device: any) => (
                         <option key={device.id} value={device.id}>{device.name}</option>
@@ -215,24 +240,44 @@ export default function Page() {
                 </select>
                     
                 <div className="mt-4">Device Out System</div>
-                <input type="text" className="form-control w-full" value={deviceName} onChange={(e) => setDeviceName(e.target.value)} />
+                <input type="text" className="form-control w-full" value={deviceName} 
+                onChange={(e) => setDeviceName(e.target.value)} />
 
                 <div className="flex gap-4 mt-4">
                     <div className="w-1/2">
                         <div>Product</div>
-                        <input type="text" className="form-control w-full" value={deviceProduct} onChange={(e) => setDeviceProduct(e.target.value)} />
+                        <input type="text" className="form-control w-full" value={deviceProduct} 
+                        onChange={(e) => setDeviceProduct(e.target.value)} />
                     </div>
                     <div className="w-1/2">
                         <div>Family</div>
-                        <input type="text" className="form-control w-full" value={deviceFamily} onChange={(e) => setdeviceFamily(e.target.value)} />
+                        <input type="text" className="form-control w-full" value={deviceFamily} 
+                        onChange={(e) => setdeviceFamily(e.target.value)} />
                     </div>
                 </div>
                 <div className="mt-4">Problem</div>
-                <textarea className="form-control w-full" value={problem} onChange={(e) => setProblem(e.target.value)}></textarea>
+                <textarea className="form-control w-full" value={problem} 
+                onChange={(e) => setProblem(e.target.value)}></textarea>
                 <button className="btn-primary mt-4" onClick={handleSave}>
                     <i className="fa-solid fa-floppy-disk mr-3"></i>
                     Save
                 </button>
+            </Modal>
+
+            <Modal title="Check Ok" isOpen={showModalReceive} onClose={() => closeModalReceive()} size="xl">
+                <div className="w-full">
+                    <div>
+                        <div>Name</div>
+                        <input type="text" className="form-control w-full disabled" readOnly
+                            value={receiveCustomerName} />
+                    </div>
+                </div>
+                <div>
+                    <button className="btn-primary mt-4" onClick={handleReceive}>
+                        <i className="fa-solid fa-save mr-3"></i>
+                        Save
+                    </button>
+                </div>
             </Modal>
                     
         </>

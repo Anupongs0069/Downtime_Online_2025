@@ -6,7 +6,7 @@ export function Sidebar() {
         {title: 'Users', href: '/backoffice/user', icon: 'fa-solid fa-users'},
         {title: 'Repair', href: '/backoffice/repair_record', icon: 'fa-solid fa-clipboard-list'},
         {title: 'Status', href: '/backoffice/repair_status', icon: 'fa-solid fa-screwdriver'},
-        {title: 'Report', href: '/backoffice/mecthaic_report', icon: 'fa-solid fa-file-alt'},
+        {title: 'Report', href: '/backoffice/report', icon: 'fa-solid fa-file-alt'},
         {title: 'Devices', href: '/backoffice/device', icon: 'fa-solid fa-laptop'},
 
     ]
