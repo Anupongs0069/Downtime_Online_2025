@@ -18,7 +18,7 @@ export default function Page() {
         { value: 'pending', label: 'Waiting for customers' },
         { value: 'repairing', label: 'Repairing' },
         { value: 'success', label: 'Success' },
-        { value: 'cancel', label: 'Cancel' }
+        { value: 'complete', label: 'Complete' }
     ])
     const [statusForFilter, setStatusForFilter] = useState('');
     const [tempRepairRecords, setTempRepairRecords] = useState([]);

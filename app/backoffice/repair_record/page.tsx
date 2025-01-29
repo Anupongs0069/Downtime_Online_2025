@@ -115,8 +115,8 @@ export default function Page() {
                 return 'Repairing';
             case 'success':
                 return 'Success';
-            case 'cancel':
-                return 'Cancel';
+            case 'complete':
+                return 'Complete';
             default:
                 return 'Waiting for repair'
         }

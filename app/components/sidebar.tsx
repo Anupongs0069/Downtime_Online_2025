@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export function Sidebar() {
     const menuItems = [
-        {title: 'Dashboard', href: '/dashboard', icon: 'fa-solid fa-chart-simple'},
+        {title: 'Dashboard', href: '/backoffice/dashboard', icon: 'fa-solid fa-chart-simple'},
         {title: 'Users', href: '/backoffice/user', icon: 'fa-solid fa-users'},
         {title: 'Repair', href: '/backoffice/repair_record', icon: 'fa-solid fa-clipboard-list'},
         {title: 'Status', href: '/backoffice/repair_status', icon: 'fa-solid fa-screwdriver'},
